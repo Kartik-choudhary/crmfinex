@@ -1,26 +1,68 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #ffffff; /* white background */
+  --foreground: #0b1020; /* deep blue text */
+  --accent-start: #ff6a3d; /* fiery orange */
+  --accent-end: #ff1f4b; /* phoenix red */
+  --muted: #f8fafc; /* light gray */
+  --muted-foreground: #64748b; /* muted text */
+  --border: #e2e8f0; /* light border */
+  --card: #ffffff; /* card background */
+  --card-foreground: #0b1020; /* card text */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-primary-900: #0b1020;
+  --color-primary-800: #121a33;
+  --color-primary-700: #1a2347;
+  --color-gray-900: #0f1115;
+  --color-gray-800: #151923;
+  --color-accent: #ff4a3d;
+  --gradient-phoenix: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+  --font-sans: var(--font-sans-override, var(--font-geist-sans));
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #0b1020;
   }
 }
 
 body {
-  background: var(--background);
+  background: radial-gradient(1200px 800px at 80% -10%, rgba(255, 106, 61, 0.05), transparent 60%),
+    radial-gradient(1000px 700px at 10% 110%, rgba(255, 31, 75, 0.04), transparent 60%),
+    var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container-max {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(11, 16, 32, 0.1);
+}
+
+.btn-primary {
+  background-image: var(--gradient-phoenix);
+  color: white;
+}
+
+.text-gradient {
+  background: var(--gradient-phoenix);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
