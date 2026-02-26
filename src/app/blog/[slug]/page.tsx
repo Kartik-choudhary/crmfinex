@@ -920,8 +920,10 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = blogPosts[params.slug as keyof typeof blogPosts];
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  // 3. Await the params before using the slug
+  const resolvedParams = await params;
+  const post = blogPosts[resolvedParams.slug as keyof typeof blogPosts];
   
   if (!post) {
     return (
