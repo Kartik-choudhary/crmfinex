@@ -913,6 +913,13 @@ Remember: Security is not a one-time implementation but an ongoing process that 
   }
 };
 
+export async function generateStaticParams() {
+  const slugs = Object.keys(blogPosts);
+  return slugs.map((slug) => ({
+    slug,
+  }));
+}
+
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = blogPosts[params.slug as keyof typeof blogPosts];
   
