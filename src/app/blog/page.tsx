@@ -55,7 +55,7 @@ export default function BlogPage() {
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Salesforce <span className="text-gradient">Insights</span>
           </h1>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+          <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
             Advanced tips, patterns, and best practices from our Salesforce experts to help you build better, faster, and more reliable solutions.
           </p>
         </div>
@@ -66,24 +66,6 @@ export default function BlogPage() {
           ))}
         </div>
 
-        <div className="mt-16 text-center">
-          <div className="glass rounded-2xl p-8 max-w-2xl mx-auto">
-            <h2 className="text-2xl font-bold mb-4">Stay Updated</h2>
-            <p className="text-white/70 mb-6">
-              Get the latest Salesforce insights delivered to your inbox. No spam, just valuable content.
-            </p>
-            <div className="flex gap-4 max-w-md mx-auto">
-              <input 
-                type="email" 
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-lg bg-black/20 border border-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/20"
-              />
-              <button className="px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity">
-                Subscribe
-              </button>
-            </div>
-          </div>
-        </div>
       </main>
       <Footer />
     </div>
