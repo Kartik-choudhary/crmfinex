@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     url: "https://www.crmfinex.com/",
   },
   metadataBase: new URL("https://www.crmfinex.com"),
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/finexlogo.png" }],
 };
 
 export default function RootLayout({
