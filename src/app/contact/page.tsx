@@ -5,9 +5,9 @@ import { Footer } from "@/components/Footer";
 
 export default function ContactPage() {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="container-max py-16">
+      <main className="container-max py-16 flex-1 flex flex-col justify-center">
         <h1 className="text-3xl md:text-4xl font-bold text-center">Contact Us</h1>
         <p className="mt-3 text-center text-muted-foreground max-w-2xl mx-auto">
           Tell us about your goals. We'll reply within one business day.
