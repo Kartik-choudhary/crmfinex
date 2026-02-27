@@ -156,9 +156,12 @@ Track all changes made by Flows:
 
 ## Conclusion
 
-Advanced Flow patterns require careful planning and consideration of performance, security, and maintainability. By implementing these patterns, you can create robust, scalable automation solutions that can handle enterprise-level complexity while remaining maintainable and reliable.
+Advanced Flow patterns require careful planning and consideration of performance, security, 
+and maintainability. By implementing these patterns, you can create robust, scalable automation 
+solutions that can handle enterprise-level complexity while remaining maintainable and reliable.
 
-Remember: The best Flow is one that's simple, well-documented, and thoroughly tested. Complexity should be justified by business value, not technical prowess.
+Remember: The best Flow is one that's simple, well-documented, and thoroughly tested. Complexity 
+should be justified by business value, not technical prowess.
     `
   },
   "scalable-apex-architecture-design-patterns": {
@@ -169,7 +172,9 @@ Remember: The best Flow is one that's simple, well-documented, and thoroughly te
     content: `
 # Building Scalable Apex Architecture: Design Patterns for Lightning Platform
 
-As Salesforce applications grow in complexity, implementing proper design patterns becomes crucial for maintainability, testability, and scalability. This guide explores enterprise-grade patterns specifically tailored for the Lightning Platform.
+As Salesforce applications grow in complexity, implementing proper design patterns becomes crucial for 
+maintainability, testability, and scalability. This guide explores enterprise-grade patterns specifically 
+tailored for the Lightning Platform.
 
 ## 1. Factory Pattern
 
@@ -538,7 +543,9 @@ public class MockAccountRepository implements IAccountRepository {
 
 ## Conclusion
 
-These design patterns provide a solid foundation for building maintainable, testable, and scalable Apex applications. Choose patterns that fit your specific use case and always prioritize code clarity and maintainability over cleverness.
+These design patterns provide a solid foundation for building maintainable, testable, and scalable Apex 
+applications. Choose patterns that fit your specific use case and always prioritize code clarity and 
+maintainability over cleverness.
 
 Remember: The goal is not to use every pattern, but to use the right patterns for your specific requirements.
     `
@@ -551,7 +558,9 @@ Remember: The goal is not to use every pattern, but to use the right patterns fo
     content: `
 # Salesforce Security Deep Dive: Implementing Zero-Trust Architecture
 
-In today's threat landscape, traditional perimeter-based security models are insufficient. Zero-trust architecture assumes that no user or device should be trusted by default, even if they're inside the corporate network. This comprehensive guide shows how to implement zero-trust principles in Salesforce.
+In today's threat landscape, traditional perimeter-based security models are insufficient. Zero-trust 
+architecture assumes that no user or device should be trusted by default, even if they're inside the 
+corporate network. This comprehensive guide shows how to implement zero-trust principles in Salesforce.
 
 ## 1. Zero-Trust Principles in Salesforce
 
@@ -906,10 +915,70 @@ public class SecurityTestSuite {
 
 ## Conclusion
 
-Implementing zero-trust architecture in Salesforce requires a comprehensive approach covering identity management, data protection, network security, and continuous monitoring. By following these principles and implementing the suggested patterns, you can significantly enhance your organization's security posture.
+Implementing zero-trust architecture in Salesforce requires a comprehensive approach covering 
+identity management, data protection, network security, and continuous monitoring. By following 
+these principles and implementing the suggested patterns, you can significantly enhance your 
+organization's security posture.
 
-Remember: Security is not a one-time implementation but an ongoing process that requires constant vigilance and adaptation to emerging threats.
+Remember: Security is not a one-time implementation but an ongoing process that requires constant 
+vigilance and adaptation to emerging threats.
     `
+  },
+  "generic-file-management-app-salesforce-aws-s3": {
+    title: "Generic File Management App: Seamless Salesforce Integration with AWS S3",
+    date: "February 27, 2026",
+    readTime: "10 min read",
+    category: "Integration",
+    excerpt: "Easily manage files in Salesforce by uploading directly to AWS S3. This generic component works on any record, enabling previews and secure deletes while cutting storage costs and improving scalability.",
+    content: `
+# Generic File Management App for Salesforce – Scale with AWS S3
+
+Easily manage files in Salesforce with the power of AWS S3. Our **Generic File Management App** can be placed on 
+any object record and allows users to upload, preview, and delete files directly from Salesforce while leveraging 
+S3’s scalability, security, and cost-efficiency.
+
+## Why Use External Storage?
+Salesforce storage is expensive and can quickly balloon when attachments and documents accumulate. By offloading 
+large or numerous files to AWS S3:
+
+- You **save on Salesforce storage costs**
+- Benefit from **virtually unlimited capacity**
+- Leverage **S3’s robust security and lifecycle policies**
+
+## How the Component Works
+The solution is built as a Lightning Web Component (LWC) that can be placed on record pages for any object:
+
+1. User selects files to upload.
+2. The component generates a pre‑signed S3 URL via an Apex controller.
+3. Files are streamed directly from the browser to S3, bypassing Salesforce file limits.
+4. Uploaded file metadata (filename, URL, size, related record) is stored in a custom object for easy access.
+
+The same component can retrieve the list of files for the record, render previews (images, PDFs, etc.), and 
+initiate secure delete operations that remove both the S3 object and the metadata record.
+
+## Key Features
+- **Direct AWS S3 Uploads**: Clients push files straight from the UI to S3 using pre-signed URLs.
+- **In-App Preview**: Users can view images, documents, and other supported file types without leaving Salesforce.
+- **Secure Delete**: Remove files cleanly from S3 and Salesforce metadata with one click.
+- **Generic Record Support**: Drop the component on any standard or custom object page.
+- **Cost Optimization**: Keep Salesforce storage light by storing heavy assets externally.
+
+## Business Benefits
+1. **Scalability** – handle large volumes of media or documents without governor concerns.
+2. **Security** – AWS IAM policies and S3 encryption protect sensitive files.
+3. **Performance** – offload bandwidth-intensive uploads/downloads from Salesforce.
+4. **Flexibility** – integrate with existing record layouts across objects.
+
+## Getting Started
+1. Install the managed package or deploy the LWC bundle and Apex controllers.
+2. Configure an AWS S3 bucket with appropriate IAM permissions.
+3. Add the component to record pages via the Lightning App Builder.
+4. Optionally, extend the component with custom business logic (e.g., virus scanning or tagging).
+
+> **Ready to implement this solution?** Reach out to [CRMFinex](https://crmfinex.example.com/contact) for a 
+ free consultation and setup assistance. Let us help you save on storage costs and streamline file handling in Salesforce.
+
+`,
   }
 };
 

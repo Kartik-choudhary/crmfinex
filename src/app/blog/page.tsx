@@ -4,7 +4,7 @@ import { BlogCard } from "@/components/BlogCard";
 
 export const metadata = {
   title: "Blog",
-  description: "Advanced Salesforce insights, tips, and best practices from CRMFinex experts.",
+  description: "Advanced Salesforce insights, tips, and best practices from CRMFinex experts. Topics include automation, architecture, security, and innovative integrations like AWS S3 file management, helping clients optimize CRM storage and performance.",
 };
 
 const blogPosts = [
@@ -34,6 +34,15 @@ const blogPosts = [
     readTime: "10 min read",
     category: "Security & Compliance",
     slug: "salesforce-zero-trust-security-architecture"
+  },
+  {
+    id: "4",
+    title: "Generic File Management App: Seamless Salesforce Integration with AWS S3",
+    excerpt: "Manage files on any Salesforce record with direct AWS S3 uploads, previews, and secure deletes—cut storage costs while leveraging scalable, secure cloud infrastructure.",
+    date: "February 27, 2026",
+    readTime: "10 min read",
+    category: "Integration",
+    slug: "generic-file-management-app-salesforce-aws-s3"
   }
 ];
 
