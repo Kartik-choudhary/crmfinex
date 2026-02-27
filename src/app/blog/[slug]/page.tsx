@@ -1,6 +1,9 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { BlogContent } from "@/components/BlogContent";
 import Link from "next/link";
+
+const baseUrl = "https://www.crmfinex.com";
 
 const blogPosts = {
   "mastering-salesforce-flow-advanced-automation": {
@@ -929,54 +932,59 @@ vigilance and adaptation to emerging threats.
     date: "February 27, 2026",
     readTime: "10 min read",
     category: "Integration",
-    excerpt: "Easily manage files in Salesforce by uploading directly to AWS S3. This generic component works on any record, enabling previews and secure deletes while cutting storage costs and improving scalability.",
+    excerpt: "Easily manage files in Salesforce with AWS S3: upload, preview, and delete files on any object record. Cut storage costs and scale with S3 security and cost-efficiency while keeping seamless access in your CRM.",
     content: `
-# Generic File Management App for Salesforce – Scale with AWS S3
+# Generic File Management App for Salesforce: Scale with AWS S3
 
-Easily manage files in Salesforce with the power of AWS S3. Our **Generic File Management App** can be placed on 
-any object record and allows users to upload, preview, and delete files directly from Salesforce while leveraging 
-S3’s scalability, security, and cost-efficiency.
+Easily manage files in Salesforce with the power of **AWS S3**. Our **Generic File Management App** works on **any object record**: upload, preview, and delete files directly from Salesforce while using S3's scalability, security, and cost-efficiency. Store large volumes outside Salesforce to save storage costs and keep seamless access inside your CRM.
 
-## Why Use External Storage?
-Salesforce storage is expensive and can quickly balloon when attachments and documents accumulate. By offloading 
-large or numerous files to AWS S3:
+[IMAGE:salesforce-s3-hero.png:Salesforce record page with file management component]
 
-- You **save on Salesforce storage costs**
-- Benefit from **virtually unlimited capacity**
-- Leverage **S3’s robust security and lifecycle policies**
+## Why move file storage to AWS S3?
 
-## How the Component Works
-The solution is built as a Lightning Web Component (LWC) that can be placed on record pages for any object:
+Salesforce storage is expensive and fills up fast when you have lots of attachments and documents. Offloading files to **AWS S3** gives you:
 
-1. User selects files to upload.
-2. The component generates a pre‑signed S3 URL via an Apex controller.
-3. Files are streamed directly from the browser to S3, bypassing Salesforce file limits.
-4. Uploaded file metadata (filename, URL, size, related record) is stored in a custom object for easy access.
+- **Lower Salesforce storage costs** – pay only for what you use in S3.
+- **Virtually unlimited capacity** – no more storage-full alerts.
+- **Strong security and lifecycle rules** – IAM, encryption, and retention in one place.
 
-The same component can retrieve the list of files for the record, render previews (images, PDFs, etc.), and 
-initiate secure delete operations that remove both the S3 object and the metadata record.
+## How it works
 
-## Key Features
-- **Direct AWS S3 Uploads**: Clients push files straight from the UI to S3 using pre-signed URLs.
-- **In-App Preview**: Users can view images, documents, and other supported file types without leaving Salesforce.
-- **Secure Delete**: Remove files cleanly from S3 and Salesforce metadata with one click.
-- **Generic Record Support**: Drop the component on any standard or custom object page.
-- **Cost Optimization**: Keep Salesforce storage light by storing heavy assets externally.
+The solution is a **Lightning Web Component (LWC)** you can add to any record page:
 
-## Business Benefits
-1. **Scalability** – handle large volumes of media or documents without governor concerns.
-2. **Security** – AWS IAM policies and S3 encryption protect sensitive files.
-3. **Performance** – offload bandwidth-intensive uploads/downloads from Salesforce.
-4. **Flexibility** – integrate with existing record layouts across objects.
+1. The user selects files to upload.
+2. An Apex controller returns a **pre-signed S3 URL**.
+3. Files are sent **directly from the browser to S3**, so Salesforce size limits do not apply.
+4. File metadata (name, URL, size, record link) is stored in a custom object for listing and preview.
 
-## Getting Started
-1. Install the managed package or deploy the LWC bundle and Apex controllers.
-2. Configure an AWS S3 bucket with appropriate IAM permissions.
-3. Add the component to record pages via the Lightning App Builder.
-4. Optionally, extend the component with custom business logic (e.g., virus scanning or tagging).
+The same component lists files for the record, shows **in-app previews** (images, PDFs, etc.), and supports **secure delete** so the file is removed from both S3 and Salesforce metadata.
 
-> **Ready to implement this solution?** Reach out to [CRMFinex](https://crmfinex.example.com/contact) for a 
- free consultation and setup assistance. Let us help you save on storage costs and streamline file handling in Salesforce.
+[IMAGE:file-upload-flow.png:Flow diagram: user uploads from Salesforce to S3 via pre-signed URL]
+
+## Key features
+
+- **Direct upload to AWS S3** – files go from the UI to S3 using pre-signed URLs; no heavy lifting in Salesforce.
+- **In-app preview** – view images, documents, and other supported types without leaving the record.
+- **Secure delete** – one action removes the file from S3 and the metadata record in Salesforce.
+- **Works on any object** – use the same component on Account, Opportunity, Custom Object, or any record page.
+- **Cost optimization** – keep Salesforce storage for CRM data; use S3 for large or high-volume files.
+
+[VIDEO:generic-file-manager-demo.mp4]
+
+## Benefits for your business
+- **Scalability** – handle large volumes of media and documents without hitting Salesforce limits.
+- **Security** – use AWS IAM and S3 encryption to protect sensitive files.
+- **Performance** – move big uploads and downloads off Salesforce and onto S3.
+- **Native Salesforce integration** – everything stays in the CRM UI; users do not switch systems.
+
+## Getting started
+
+1. Deploy the LWC and Apex (or install the managed package).
+2. Configure an **AWS S3 bucket** and IAM permissions (including pre-signed URL generation).
+3. Add the component to the right record pages in **Lightning App Builder**.
+4. Optionally add custom logic (e.g. virus scanning, tagging, or approval).
+
+> **Ready to implement?** Contact CRMFinex for a free consultation and setup help. We can help you cut storage costs and streamline file handling in Salesforce.
 
 `,
   }
@@ -984,9 +992,26 @@ initiate secure delete operations that remove both the S3 object and the metadat
 
 export async function generateStaticParams() {
   const slugs = Object.keys(blogPosts);
-  return slugs.map((slug) => ({
-    slug,
-  }));
+  return slugs.map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = blogPosts[slug as keyof typeof blogPosts];
+  if (!post) return { title: "Post Not Found" };
+  const description = "excerpt" in post ? (post as { excerpt?: string }).excerpt : post.title;
+  return {
+    title: post.title,
+    description,
+    openGraph: {
+      title: post.title,
+      description,
+      type: "article",
+      url: `${baseUrl}/blog/${slug}`,
+      publishedTime: post.date,
+    },
+    twitter: { card: "summary_large_image", title: post.title, description },
+  };
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -1010,31 +1035,42 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     );
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    datePublished: post.date,
+    description: "excerpt" in post ? (post as { excerpt?: string }).excerpt : post.title,
+    url: `${baseUrl}/blog/${resolvedParams.slug}`,
+    author: { "@type": "Organization", name: "CRMFinex" },
+  };
+
   return (
     <div>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Navbar />
       <main className="container-max py-16">
         <div className="max-w-4xl mx-auto">
-          <div className="mb-8">
-            <div className="flex items-center gap-2 mb-4">
+          <header className="mb-10">
+            <div className="flex flex-wrap items-center gap-2 mb-4">
               <span className="text-xs font-semibold px-2 py-1 rounded-full bg-gradient-to-r from-orange-500 to-red-500 text-white">
                 {post.category}
               </span>
               <span className="text-sm text-white/60">{post.readTime}</span>
+              <time dateTime={post.date} className="text-sm text-white/60">{post.date}</time>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">{post.title}</h1>
-            <time className="text-white/60">{post.date}</time>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">{post.title}</h1>
+          </header>
+
+          <div className="glass rounded-2xl p-8 md:px-10 max-w-none">
+            <BlogContent content={post.content} />
           </div>
-          
-          <div className="glass rounded-2xl p-8 prose prose-invert max-w-none">
-            <div dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, '<br/>').replace(/```/g, '<pre><code>').replace(/```/g, '</code></pre>') }} />
-          </div>
-          
-          <div className="mt-12 text-center">
-            <Link href="/blog" className="btn-primary rounded-full px-6 py-3">
+
+          <footer className="mt-12 text-center">
+            <Link href="/blog" className="btn-primary rounded-full px-6 py-3 inline-block">
               ← Back to Blog
             </Link>
-          </div>
+          </footer>
         </div>
       </main>
       <Footer />
