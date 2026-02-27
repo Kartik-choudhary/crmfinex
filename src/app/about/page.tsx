@@ -8,9 +8,9 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="container-max py-16">
+      <main className="container-max py-16 flex-1">
         <h1 className="text-3xl md:text-4xl font-bold">About CRMFinex</h1>
         <p className="mt-6 max-w-3xl text-muted-foreground">
           We are a consulting agency specialized in Salesforce and AWS with a focus on
