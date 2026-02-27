@@ -48,17 +48,15 @@ function renderPlaceholderSegment(seg: PlaceholderSegment, key: number): React.R
       </figure>
     );
   }
+  // Resolve image src: paths starting with / or http are used as-is; otherwise serve from /blog/
+  const imgSrc = seg.path.startsWith("/") || seg.path.startsWith("http") ? seg.path : `/blog/${seg.path}`;
   return (
     <figure key={key} className="my-8">
-      <div className="rounded-xl overflow-hidden bg-primary-800/50 border border-white/10 aspect-video flex flex-col items-center justify-center gap-3 p-8">
-        <div className="w-20 h-20 rounded-lg bg-white/10 flex items-center justify-center">
-          <svg className="w-10 h-10 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-        </div>
-        <p className="text-white/80 font-medium">Image placeholder</p>
-        <p className="text-sm text-white/50">Replace with your image: <code className="px-2 py-0.5 rounded bg-black/20">{seg.path}</code></p>
-        {seg.alt && seg.alt !== seg.path && <p className="text-xs text-white/40">Alt: {seg.alt}</p>}
+      <div className="rounded-xl overflow-hidden border border-white/10 bg-primary-800/30">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={imgSrc} alt={seg.alt} className="w-full h-auto object-contain" />
       </div>
-      <figcaption className="mt-2 text-center text-sm text-white/50">{seg.alt}</figcaption>
+      {seg.alt && <figcaption className="mt-2 text-center text-sm text-white/50">{seg.alt}</figcaption>}
     </figure>
   );
 }
