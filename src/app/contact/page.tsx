@@ -15,8 +15,8 @@ export default function ContactPage() {
         <div className="text-center mt-8">
           <p className="text-lg text-foreground">
             You can reach us by email at:{" "}
-            <a href="mailto:kartik.choudhary@crmfinex.com" className="text-[#ff6a3d] hover:underline">
-              kartik.choudhary@crmfinex.com
+            <a href="mailto:kartik@crmfinex.com" className="text-[#ff6a3d] hover:underline">
+              kartik@crmfinex.com
             </a>
           </p>
         </div>

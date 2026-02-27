@@ -7,7 +7,7 @@ export function Footer() {
         <p>© {new Date().getFullYear()} CRMFinex. All rights reserved.</p>
         <div className="flex items-center gap-4">
           <Link href="https://www.linkedin.com/company/crmfinex" target="_blank" rel="noopener noreferrer" className="hover:text-[#0b1020] transition-colors">LinkedIn</Link>
-          <Link href="mailto:kartik.choudhary@crmfinex.com" className="hover:text-[#0b1020] transition-colors">Email</Link>
+          <Link href="mailto:kartik@crmfinex.com" className="hover:text-[#0b1020] transition-colors">Email</Link>
         </div>
       </div>
     </footer>
