@@ -34,17 +34,21 @@ function splitByPlaceholders(str: string): PlaceholderSegment[] {
 function renderPlaceholderSegment(seg: PlaceholderSegment, key: number): React.ReactNode {
   if (seg.type === "text") return <React.Fragment key={key}>{inlineFormatBoldAndCode(seg.value)}</React.Fragment>;
   if (seg.type === "video") {
+    const videoSrc = seg.path.startsWith("/") || seg.path.startsWith("http") ? seg.path : `/blog/${seg.path}`;
     return (
       <figure key={key} className="my-8">
-        <div className="aspect-video w-full rounded-xl bg-primary-800/50 border border-white/10 flex flex-col items-center justify-center gap-3 p-8">
-          <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
-            <svg className="w-8 h-8 text-white/70" fill="currentColor" viewBox="0 0 24 24" aria-hidden><path d="M8 5v14l11-7L8 5z"/></svg>
-          </div>
-          <p className="text-white/80 font-medium">Video placeholder</p>
-          <p className="text-sm text-white/50">Replace with your video: <code className="px-2 py-0.5 rounded bg-black/20">{seg.path}</code></p>
-          <p className="text-xs text-white/40">Upload your file and use the path in place of this placeholder.</p>
+        <div className="rounded-xl overflow-hidden border border-foreground/10 bg-foreground/5 aspect-video">
+          <video
+            src={videoSrc}
+            controls
+            className="w-full h-full object-contain"
+            playsInline
+            preload="metadata"
+          >
+            Your browser does not support the video tag.
+          </video>
         </div>
-        <figcaption className="mt-2 text-center text-sm text-white/50">Video: {seg.path}</figcaption>
+        <figcaption className="mt-2 text-center text-sm text-foreground/60">Video: {seg.path}</figcaption>
       </figure>
     );
   }
@@ -56,7 +60,7 @@ function renderPlaceholderSegment(seg: PlaceholderSegment, key: number): React.R
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={imgSrc} alt={seg.alt} className="w-full h-auto object-contain" />
       </div>
-      {seg.alt && <figcaption className="mt-2 text-center text-sm text-white/50">{seg.alt}</figcaption>}
+      {seg.alt && <figcaption className="mt-2 text-center text-sm text-foreground/60">{seg.alt}</figcaption>}
     </figure>
   );
 }
@@ -78,7 +82,7 @@ function inlineFormatBoldAndCode(text: string): React.ReactNode {
   matches.sort((a, b) => a.index - b.index);
   for (const m of matches) {
     if (m.index > lastIndex) parts.push(<React.Fragment key={key++}>{remaining.slice(lastIndex, m.index)}</React.Fragment>);
-    parts.push(<React.Fragment key={key++}>{m.type === "bold" ? <strong className="font-semibold text-foreground">{m.value}</strong> : <code className="px-1.5 py-0.5 rounded bg-black/20 text-sm font-mono">{m.value}</code>}</React.Fragment>);
+    parts.push(<React.Fragment key={key++}>{m.type === "bold" ? <strong className="font-semibold text-foreground">{m.value}</strong> : <code className="px-1.5 py-0.5 rounded bg-foreground/15 text-foreground text-sm font-mono">{m.value}</code>}</React.Fragment>);
     lastIndex = m.end;
   }
   if (lastIndex < remaining.length) parts.push(<React.Fragment key={key++}>{remaining.slice(lastIndex)}</React.Fragment>);
@@ -184,25 +188,30 @@ function inlineFormat(text: string, allowPlaceholders = false): React.ReactNode 
 export function BlogContent({ content }: { content: string }) {
   const blocks = parseMarkdown(content);
 
+  const articleCls = "blog-content text-foreground break-words whitespace-normal";
+  const pCls = "my-4 leading-relaxed text-foreground/90 max-w-none";
+  const listCls = "my-4 list-disc list-inside space-y-2 text-foreground/90 pl-4";
+  const listItemCls = "leading-relaxed";
+
   return (
-    <article className="blog-content">
+    <article className={articleCls}>
       {blocks.map((block, idx) => {
         switch (block.type) {
           case "h1":
             return (
-              <h1 key={idx} className="text-3xl md:text-4xl font-bold mt-10 mb-4 first:mt-0 scroll-mt-24">
+              <h1 key={idx} className="text-3xl md:text-4xl font-bold text-foreground mt-10 mb-4 first:mt-0 scroll-mt-24">
                 {inlineFormat(block.content)}
               </h1>
             );
           case "h2":
             return (
-              <h2 key={idx} className="text-2xl md:text-3xl font-bold mt-12 mb-4 scroll-mt-24 border-b border-white/10 pb-2">
+              <h2 key={idx} className="text-2xl md:text-3xl font-bold text-foreground mt-12 mb-4 scroll-mt-24 border-b border-foreground/15 pb-2">
                 {inlineFormat(block.content)}
               </h2>
             );
           case "h3":
             return (
-              <h3 key={idx} className="text-xl font-bold mt-8 mb-3 scroll-mt-24">
+              <h3 key={idx} className="text-xl font-bold text-foreground mt-8 mb-3 scroll-mt-24">
                 {inlineFormat(block.content)}
               </h3>
             );
@@ -214,7 +223,7 @@ export function BlogContent({ content }: { content: string }) {
                 <div key={idx} className="my-6 space-y-4">
                   {segments.map((seg, i) =>
                     seg.type === "text" ? (
-                      <p key={i} className="my-4 leading-relaxed text-white/90">
+                      <p key={i} className={pCls}>
                         {inlineFormatBoldAndCode(seg.value)}
                       </p>
                     ) : (
@@ -225,7 +234,7 @@ export function BlogContent({ content }: { content: string }) {
               );
             }
             return (
-              <p key={idx} className="my-4 leading-relaxed text-white/90">
+              <p key={idx} className={pCls}>
                 {inlineFormat(block.content, true)}
               </p>
             );
@@ -233,9 +242,9 @@ export function BlogContent({ content }: { content: string }) {
           case "ul": {
             const items = block.content.split("\n").filter(Boolean);
             return (
-              <ul key={idx} className="my-4 list-disc list-inside space-y-2 text-white/90 pl-2">
+              <ul key={idx} className={listCls}>
                 {items.map((item, j) => (
-                  <li key={j}>{inlineFormat(item)}</li>
+                  <li key={j} className={listItemCls}>{inlineFormat(item)}</li>
                 ))}
               </ul>
             );
@@ -243,23 +252,23 @@ export function BlogContent({ content }: { content: string }) {
           case "ol": {
             const items = block.content.split("\n").filter(Boolean);
             return (
-              <ol key={idx} className="my-4 list-decimal list-inside space-y-2 text-white/90 pl-2">
+              <ol key={idx} className="my-4 list-decimal list-inside space-y-2 text-foreground/90 pl-6">
                 {items.map((item, j) => (
-                  <li key={j}>{inlineFormat(item)}</li>
+                  <li key={j} className={listItemCls}>{inlineFormat(item)}</li>
                 ))}
               </ol>
             );
           }
           case "blockquote":
             return (
-              <blockquote key={idx} className="my-6 pl-6 border-l-4 border-orange-500/60 text-white/80 italic">
+              <blockquote key={idx} className="my-6 pl-6 border-l-4 border-orange-500/60 text-foreground/80 italic">
                 {inlineFormat(block.content)}
               </blockquote>
             );
           case "code":
             return (
-              <pre key={idx} className="my-6 overflow-x-auto rounded-xl bg-black/40 p-4 border border-white/10">
-                <code className="text-sm font-mono text-white/90">{block.content}</code>
+              <pre key={idx} className="my-6 overflow-x-auto rounded-xl bg-foreground/10 p-4 border border-foreground/10">
+                <code className="text-sm font-mono text-foreground/90">{block.content}</code>
               </pre>
             );
           default:

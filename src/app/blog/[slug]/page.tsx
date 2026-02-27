@@ -972,6 +972,7 @@ The same component lists files for the record, shows **in-app previews** (images
 [VIDEO:generic-file-manager-demo.mp4]
 
 ## Benefits for your business
+
 - **Scalability** – handle large volumes of media and documents without hitting Salesforce limits.
 - **Security** – use AWS IAM and S3 encryption to protect sensitive files.
 - **Performance** – move big uploads and downloads off Salesforce and onto S3.
