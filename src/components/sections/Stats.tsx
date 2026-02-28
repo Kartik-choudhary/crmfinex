@@ -12,7 +12,7 @@ const stats = [
     label: "Happy Customers",
   },
   {
-    number: "6+",
+    number: "3+",
     label: "Salesforce Experts",
   },
   {
